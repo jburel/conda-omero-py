@@ -55,6 +55,7 @@ jobs:
         with:
           path: "${{ steps.condablddir.outputs.condabld }}/*-64/omero-py-*"
           if-no-files-found: error
+          name: "${{ matrix.os }}-${{ matrix.python }}/omero-py-*"
   upload:
     needs: build
     if: startsWith(github.ref, 'refs/tags')
