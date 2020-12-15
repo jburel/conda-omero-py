@@ -46,7 +46,7 @@ jobs:
           else
             export VERSION_SUFFIX=""
           fi
-          conda build -c ${{ env.channel }} --python ${{ matrix.python }} .
+          conda build -c ${{ env.channel }} --python=${{ matrix.python }} .
       - name: List outputs
         run: |
           ls -R "${{ steps.condablddir.outputs.condabld }}"
