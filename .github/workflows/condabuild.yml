@@ -51,6 +51,7 @@ jobs:
         run: |
           ls -R "${{ steps.condablddir.outputs.condabld }}"
       - name: Move output
+        run: |
           mkdir ${{ steps.condablddir.outputs.condabld }}/*-64/${{ matrix.python }}
           mv ${{ steps.condablddir.outputs.condabld }}/*-64/* ${{ steps.condablddir.outputs.condabld }}/*-64/${{ matrix.python }}
       - name: Upload artifacts
@@ -76,7 +77,7 @@ jobs:
       - name: Upload to Anaconda Cloud
         run: |
           anaconda whoami
-          for f in artifact/*/omero-py*; do
+          for f in artifact/*/*/omero-py*; do
             anaconda upload --user ${ANACONDA_USER} $f
           done
         env:
