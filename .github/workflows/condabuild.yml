@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        python: [3.6]
+        python: [3.6, 3.7]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     env:
@@ -50,15 +50,12 @@ jobs:
       - name: List outputs
         run: |
           ls -R "${{ steps.condablddir.outputs.condabld }}"
-      - name: Move output
-        run: |
-          mkdir ${{ steps.condablddir.outputs.condabld }}/*-64/${{ matrix.python }}
-          mv ${{ steps.condablddir.outputs.condabld }}/*-64/* ${{ steps.condablddir.outputs.condabld }}/*-64/${{ matrix.python }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           path: "${{ steps.condablddir.outputs.condabld }}/*-64/*/omero-py-*"
           if-no-files-found: error
+          name: ${{ matrix.os }} ${{ matrix.python }}
   upload:
     needs: build
     if: startsWith(github.ref, 'refs/tags')
